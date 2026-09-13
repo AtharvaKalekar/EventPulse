@@ -1,0 +1,6 @@
+{
+  "name": "EventPulse",
+  "description": "Real-time event companion and incident response system featuring interactive venue maps, live crowd radar, smart scheduling, and emergency SOS dispatch.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

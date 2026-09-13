@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+    background-color: #F7F4EE;
+    color: #292524;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.font-serif-headline {
+  font-family: 'Newsreader', serif;
+}
+
+.font-sans-body {
+  font-family: 'Manrope', sans-serif;
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.font-display-command {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Custom scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes mapDash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-map-dash {
+  animation: mapDash 1.5s linear infinite;
+}
+
+/* Clean Accessibility High-Contrast Mode without color distortion */
+.accessibility-high-contrast {
+  font-weight: 500;
+}
+
+.accessibility-high-contrast button,
+.accessibility-high-contrast a,
+.accessibility-high-contrast input,
+.accessibility-high-contrast [role="button"] {
+  outline: 2px solid #292524 !important;
+  outline-offset: 1px !important;
+}
+
+
+
