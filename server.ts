@@ -68,6 +68,8 @@ let users: (User & { passwordHash: string })[] = [
   }
 ];
 
+const router = express.Router();
+
 // Helper to generate simple token
 const createToken = (userId: string) => `token_ep_${userId}_${Date.now()}`;
 
@@ -75,9 +77,8 @@ const createToken = (userId: string) => `token_ep_${userId}_${Date.now()}`;
 // Authentication Endpoints
 // ----------------------------------------------------
 
-// POST /api/auth/login
-app.post('/api/auth/login', (req, res) => {
-  const { email, password } = req.body;
+router.post('/auth/login', (req, res) => {
+  const { email, password } = req.body || {};
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
@@ -96,9 +97,8 @@ app.post('/api/auth/login', (req, res) => {
   });
 });
 
-// POST /api/auth/signup
-app.post('/api/auth/signup', (req, res) => {
-  const { name, email, password, role } = req.body;
+router.post('/auth/signup', (req, res) => {
+  const { name, email, password, role } = req.body || {};
   if (!name || !email || !password) {
     return res.status(400).json({ error: 'Name, email, and password are required' });
   }
@@ -129,8 +129,7 @@ app.post('/api/auth/signup', (req, res) => {
   });
 });
 
-// GET /api/auth/me
-app.get('/api/auth/me', (req, res) => {
+router.get('/auth/me', (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Unauthorized' });
@@ -160,10 +159,8 @@ if (apiKey && apiKey !== 'MY_GEMINI_API_KEY') {
   }
 }
 
-// ----------------------------------------------------
 // Health Check Endpoint
-// ----------------------------------------------------
-app.get('/api/health', (req, res) => {
+router.get('/health', (req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
@@ -172,15 +169,13 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ----------------------------------------------------
 // Announcements Endpoints
-// ----------------------------------------------------
-app.get('/api/announcements', (req, res) => {
+router.get('/announcements', (req, res) => {
   res.json(announcements);
 });
 
-app.post('/api/announcements', (req, res) => {
-  const { title, description, tag, tagType, location, actionLabel, actionType, badgeMeta } = req.body;
+router.post('/announcements', (req, res) => {
+  const { title, description, tag, tagType, location, actionLabel, actionType, badgeMeta } = req.body || {};
   if (!title || !description) {
     return res.status(400).json({ error: 'Title and description are required' });
   }
@@ -202,14 +197,12 @@ app.post('/api/announcements', (req, res) => {
   res.status(201).json(newAnn);
 });
 
-// ----------------------------------------------------
 // Zones (Crowd Radar) Endpoints
-// ----------------------------------------------------
-app.get('/api/zones', (req, res) => {
+router.get('/zones', (req, res) => {
   res.json(zones);
 });
 
-app.patch('/api/zones/:id', (req, res) => {
+router.patch('/zones/:id', (req, res) => {
   const { id } = req.params;
   const zoneIndex = zones.findIndex(z => z.id === id);
   if (zoneIndex === -1) {
@@ -224,21 +217,17 @@ app.patch('/api/zones/:id', (req, res) => {
   res.json(zones[zoneIndex]);
 });
 
-// ----------------------------------------------------
-// POIs (Venue Map Points of Interest) Endpoints
-// ----------------------------------------------------
-app.get('/api/pois', (req, res) => {
+// POIs Endpoints
+router.get('/pois', (req, res) => {
   res.json(pois);
 });
 
-// ----------------------------------------------------
 // Schedule Sessions Endpoints
-// ----------------------------------------------------
-app.get('/api/sessions', (req, res) => {
+router.get('/sessions', (req, res) => {
   res.json(sessions);
 });
 
-app.patch('/api/sessions/:id', (req, res) => {
+router.patch('/sessions/:id', (req, res) => {
   const { id } = req.params;
   const sessionIndex = sessions.findIndex(s => s.id === id);
   if (sessionIndex === -1) {
@@ -253,15 +242,13 @@ app.patch('/api/sessions/:id', (req, res) => {
   res.json(sessions[sessionIndex]);
 });
 
-// ----------------------------------------------------
-// Incidents (Emergency SOS) Endpoints
-// ----------------------------------------------------
-app.get('/api/incidents', (req, res) => {
+// Incidents Endpoints
+router.get('/incidents', (req, res) => {
   res.json(incidents);
 });
 
-app.post('/api/incidents', (req, res) => {
-  const { type, typeLabel, icon, zone, locationDetail, reportedBy, isUrgent } = req.body;
+router.post('/incidents', (req, res) => {
+  const { type, typeLabel, icon, zone, locationDetail, reportedBy, isUrgent } = req.body || {};
   if (!zone) {
     return res.status(400).json({ error: 'Zone is required' });
   }
@@ -286,7 +273,7 @@ app.post('/api/incidents', (req, res) => {
   res.status(201).json(newIncident);
 });
 
-app.patch('/api/incidents/:id', (req, res) => {
+router.patch('/incidents/:id', (req, res) => {
   const { id } = req.params;
   const incIndex = incidents.findIndex(i => i.id === id);
   if (incIndex === -1) {
@@ -301,14 +288,12 @@ app.patch('/api/incidents/:id', (req, res) => {
   res.json(incidents[incIndex]);
 });
 
-// ----------------------------------------------------
 // Responders Endpoints
-// ----------------------------------------------------
-app.get('/api/responders', (req, res) => {
+router.get('/responders', (req, res) => {
   res.json(responders);
 });
 
-app.patch('/api/responders/:id', (req, res) => {
+router.patch('/responders/:id', (req, res) => {
   const { id } = req.params;
   const resIndex = responders.findIndex(r => r.id === id);
   if (resIndex === -1) {
@@ -323,11 +308,9 @@ app.patch('/api/responders/:id', (req, res) => {
   res.json(responders[resIndex]);
 });
 
-// ----------------------------------------------------
-// Gemini AI Event Assistant Endpoint
-// ----------------------------------------------------
-app.post('/api/ai/assistant', async (req, res) => {
-  const { prompt } = req.body;
+// AI Assistant Endpoint
+router.post('/ai/assistant', async (req, res) => {
+  const { prompt } = req.body || {};
   if (!prompt) {
     return res.status(400).json({ error: 'Prompt is required' });
   }
@@ -353,9 +336,18 @@ app.post('/api/ai/assistant', async (req, res) => {
     console.error('Gemini API call error:', err);
   }
 
-  // Fallback response generator if Gemini API key is missing or encounters network error
   const fallbackAnswer = `EventPulse Assistant: Thank you for asking about "${prompt}". Main Stage is currently at 89% capacity, while Workshop Hall B has lower congestion (28%). For medical or security emergencies, use the SOS button immediately.`;
   res.json({ answer: fallbackAnswer });
+});
+
+// Mount router under both /api and /
+app.use('/api', router);
+app.use('/', router);
+
+// Global Error Middleware
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Server Error:', err);
+  res.status(500).json({ error: err?.message || 'Internal Server Error' });
 });
 
 app.listen(PORT, () => {
