@@ -107,18 +107,18 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         </div>
 
         {/* Form Area */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {errorMessage && (
             <div className="mb-4 p-3 rounded-xl bg-[#FDF2EF] border border-[#F5C2B8] text-[#B4533C] text-xs flex items-center gap-2">
-              <span className="material-symbols-outlined text-[18px]">error</span>
+              <span className="material-symbols-outlined text-[18px] shrink-0">error</span>
               <span>{errorMessage}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 sm:gap-4">
             {activeTab === 'signup' && (
               <div className="flex flex-col gap-1">
-                <label className="text-[11px] font-mono-code text-[#78716C] uppercase font-semibold">
+                <label className="text-[10px] sm:text-[11px] font-mono-code text-[#78716C] uppercase font-semibold">
                   Full Name
                 </label>
                 <input
@@ -133,7 +133,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             )}
 
             <div className="flex flex-col gap-1">
-              <label className="text-[11px] font-mono-code text-[#78716C] uppercase font-semibold">
+              <label className="text-[10px] sm:text-[11px] font-mono-code text-[#78716C] uppercase font-semibold">
                 Email Address
               </label>
               <input
@@ -147,7 +147,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-[11px] font-mono-code text-[#78716C] uppercase font-semibold">
+              <label className="text-[10px] sm:text-[11px] font-mono-code text-[#78716C] uppercase font-semibold">
                 Password
               </label>
               <input
@@ -162,14 +162,14 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
             {activeTab === 'signup' && (
               <div className="flex flex-col gap-1">
-                <label className="text-[11px] font-mono-code text-[#78716C] uppercase font-semibold">
+                <label className="text-[10px] sm:text-[11px] font-mono-code text-[#78716C] uppercase font-semibold">
                   Account Role
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setRole('attendee')}
-                    className={`py-2 rounded-xl text-xs font-semibold border transition-all ${
+                    className={`py-2 px-1.5 rounded-xl text-[11px] sm:text-xs font-semibold border transition-all ${
                       role === 'attendee'
                         ? 'bg-[#71472F] text-white border-[#5C3925]'
                         : 'bg-[#FAF8F5] text-[#78716C] border-[#E7E2D8]'
@@ -180,7 +180,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => setRole('organizer')}
-                    className={`py-2 rounded-xl text-xs font-semibold border transition-all ${
+                    className={`py-2 px-1.5 rounded-xl text-[11px] sm:text-xs font-semibold border transition-all ${
                       role === 'organizer'
                         ? 'bg-[#71472F] text-white border-[#5C3925]'
                         : 'bg-[#FAF8F5] text-[#78716C] border-[#E7E2D8]'
@@ -195,7 +195,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-2 w-full py-3 rounded-xl bg-[#71472F] hover:bg-[#5C3925] text-white text-xs font-semibold tracking-wide transition-all active:scale-[0.99] shadow-xs flex items-center justify-center gap-2"
+              className="mt-1 sm:mt-2 w-full py-3 rounded-xl bg-[#71472F] hover:bg-[#5C3925] text-white text-xs font-semibold tracking-wide transition-all active:scale-[0.99] shadow-xs flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <span className="material-symbols-outlined text-[18px] animate-spin">refresh</span>
@@ -206,11 +206,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           </form>
 
           {/* Quick Demo Section */}
-          <div className="relative my-6 flex items-center justify-center">
+          <div className="relative my-5 sm:my-6 flex items-center justify-center">
             <span className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-[#E7E2D8]"></span>
             </span>
-            <span className="relative bg-white px-3 font-mono-code text-[10px] text-[#A8A29E] uppercase font-semibold">
+            <span className="relative bg-white px-2.5 font-mono-code text-[9px] sm:text-[10px] text-[#A8A29E] uppercase font-semibold">
               Or One-Click Demo
             </span>
           </div>
@@ -221,11 +221,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               onClick={() => handleDemoLogin('organizer')}
               className="w-full py-2.5 rounded-xl border border-[#DAE2FD] bg-[#F2F3FF] hover:bg-[#E2E7FF] text-[#131B2E] text-xs font-semibold transition-colors flex items-center justify-between px-3"
             >
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-[#4225D0]">admin_panel_settings</span>
-                <span>Demo as Atharva (Lead Organizer)</span>
+              <div className="flex items-center gap-2 truncate">
+                <span className="material-symbols-outlined text-[18px] text-[#4225D0] shrink-0">admin_panel_settings</span>
+                <span className="truncate">Demo as Atharva (Lead Organizer)</span>
               </div>
-              <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+              <span className="material-symbols-outlined text-[16px] shrink-0">chevron_right</span>
             </button>
 
             <button
@@ -233,11 +233,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               onClick={() => handleDemoLogin('attendee')}
               className="w-full py-2.5 rounded-xl border border-[#E7E2D8] bg-[#FAF8F5] hover:bg-[#F3EFE6] text-[#292524] text-xs font-semibold transition-colors flex items-center justify-between px-3"
             >
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-[#71472F]">smartphone</span>
-                <span>Demo as Alex Rivera (Attendee)</span>
+              <div className="flex items-center gap-2 truncate">
+                <span className="material-symbols-outlined text-[18px] text-[#71472F] shrink-0">smartphone</span>
+                <span className="truncate">Demo as Alex Rivera (Attendee)</span>
               </div>
-              <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+              <span className="material-symbols-outlined text-[16px] shrink-0">chevron_right</span>
             </button>
           </div>
         </div>
